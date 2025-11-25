@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#root,
+form {
+  justify-content: center;
+}
+#root {
+  height: 100vh;
+  font-family: cursive;
+  width: 100vw;
+  background-image: url("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmo5MG1lYnRkYTJieXVuNWRsMzYzeDh4emFuNDg3bWJrMno1MGo0YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3ov9jEnypymbFQJ9CM/giphy.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+form, .todo, .todos, .controls, #root, .edits-btn {
+  display: flex;
+  align-items: center;
+}
+#main {
+  min-height: 400px;
+  height: auto;
+  width: 40%;
+  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  border: 5px dotted rgb(143, 171, 255);
+  border-radius: 20px;
+}
+#main > h1,
+p {
+  text-align: center;
+  color: royalblue;
+}
+form {
+  margin: 30px 0;
+  gap: 20px;
+}
+input[type='text'] {
+  height: 55px;
+  font-family: cursive;
+  padding: 0 0 0 20px;
+  border-radius: 20px;
+  background-color: lightcyan;
+  border: 2px dotted rgb(107, 144, 255);
+}
+button {
+  border: transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  height: 55px;
+  background-color: skyblue;
+  color: whitesmoke;
+  width: 100px;
+}
+.todos,
+.todo {
+  justify-content: space-between;
+  padding: 10px;
+}
+.todos {
+  margin: 20px 0 0 30px;
+  width: 90%;
+  border-radius: 10px;
+  border: 2px dotted rgb(107, 144, 255);
+  background-color: lightcyan;
+}
+.todo {
+  gap: 30px;
+  width: 170px;
+  white-space: nowrap;
+}
+input[type='checkbox'] {
+  height: 20px;
+}
+.btn {
+  background-color: lightcoral;
+  width: 70px;
+  margin: 0 10px 0 0;
+  height: 40px;
+}
+.controls {
+  justify-content: space-evenly;
+  width: 40%;
+}
+.update-todo, input[type='text'] {
+  width: 70%;
+}
+.update-todo input {
+  width: 100%;
+  background-color: whitesmoke;
+}
+.edits-btn {
+  gap: 10px;
+}
+.edits-btn button {
+  height: 50px;
+  width: 60px;
+}
