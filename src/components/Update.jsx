@@ -3,6 +3,7 @@ const Update = ({ setUpdatedTask, updatedTask }) => {
     <div className="update-todo">
       <input
         onChange={(e) => setUpdatedTask(e.target.value)}
+        value={updatedTask}
         type="text"
         placeholder="Update Todo"
       />

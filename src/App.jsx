@@ -7,72 +7,95 @@ const App = () => {
   const [todos, setTodos] = useState(
     JSON.parse(localStorage.getItem("todoData")) || []
   );
+  const [completed, setCompleted] = useState(
+    JSON.parse(localStorage.getItem("completedData")) || []
+  );
   const [task, setTask] = useState("");
-  const [count, setCount] = useState(todos.length);
-  const [flag, setFlag] = useState(true);
   const [editingIndex, setEditingIndex] = useState(null);
   const [updatedTask, setUpdatedTask] = useState("");
 
   useEffect(() => {
     localStorage.setItem("todoData", JSON.stringify(todos));
-  }, [todos]);
+    localStorage.setItem("completedData", JSON.stringify(completed));
+  }, [todos, completed]);
 
   const addTask = () => {
-    setCount(count + 1);
+    if (task.trim() === "") return;
     setTodos([...todos, task]);
     setTask("");
   };
 
   function removeTodo(removeIndex) {
-    if (count > 0) {
-      setCount(count - 1);
-    }
-    setTodos(todos.filter((todo, index) => index !== removeIndex));
-  }
-  function updateTask(i) {
-    setEditingIndex(i);
-    setFlag(false);
+    setTodos(todos.filter((_, index) => index !== removeIndex));
+    setCompleted(
+      completed
+        .filter((i) => i !== removeIndex)
+        .map((i) => (i > removeIndex ? i - 1 : i))
+    );
   }
 
-  const checkHandler = (e) => {
+  function updateTask(i) {
+    setEditingIndex(i);
+    setUpdatedTask(todos[i]);
+  }
+
+  const checkHandler = (index) => (e) => {
     if (e.target.checked) {
-      if (count > 0) {
-        setCount(count - 1);
+      if (!completed.includes(index)) {
+        setCompleted([...completed, index]);
       }
     } else {
-      setCount(count + 1);
-      setStyles({ textDecoration: "none" });
+      setCompleted(completed.filter((i) => i !== index));
     }
   };
+
   return (
     <div id="main">
       <h1>Yug's ToDo List</h1>
-      <form onSubmit={(e) => e.preventDefault()}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          addTask();
+        }}
+      >
         <input
-          onChange={(e) => {
-            flag ? setTask(e.target.value) : setTask(updatedTask);
-          }}
+          onChange={(e) => setTask(e.target.value)}
           type="text"
           placeholder="Enter your Task"
           value={task}
         />
-        <button onClick={addTask}>Add</button>
+        <button type="submit">Add</button>
       </form>
-      <p>You Have {count} task pending</p>
+      <p>
+        You have {todos.length - completed.length} task
+        {todos.length - completed.length !== 1 ? "s" : ""} pending
+      </p>
       {todos.map((todo, index) => (
         <div key={index} className="todos">
           {index === editingIndex ? (
             <Update setUpdatedTask={setUpdatedTask} updatedTask={updatedTask} />
           ) : (
             <div className="todo">
-              <input type="checkbox" onClick={checkHandler} />
-              <p>{todo}</p>
+              <input
+                type="checkbox"
+                checked={completed.includes(index)}
+                onChange={checkHandler(index)}
+              />
+              <p
+                style={{
+                  textDecoration: completed.includes(index)
+                    ? "line-through"
+                    : "none",
+                  opacity: completed.includes(index) ? 0.6 : 1,
+                }}
+              >
+                {todo}
+              </p>
             </div>
           )}
           {index === editingIndex ? (
             <EditButtons
               setTodos={setTodos}
-              setFlag={setFlag}
               updatedTask={updatedTask}
               editingIndex={editingIndex}
               setEditingIndex={setEditingIndex}
